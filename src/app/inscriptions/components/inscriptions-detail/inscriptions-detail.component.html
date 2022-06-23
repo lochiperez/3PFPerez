@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="d-flex align-items-end">
+        <button [routerLink]="'..'" class="m-2" mat-fab color="primary" aria-label="back button" matTooltip="Volver a usuarios">
+                    <mat-icon>arrow_back_ios_new</mat-icon>
+                </button>
+        <h1 appTitles>Inscripciones</h1>
+      </div>
+      <div *ngIf="!loading" class="d-flex justify-content-between align-items-end">
+        <h1>{{ student.name }} {{ student.lastname }}</h1>
+        <button [ngClass]="user!.rol === 'admin' ? '' : 'd-none'" (click)="onClickAdd()" class="m-2" mat-fab color="primary" aria-label="edit button" matTooltip="Inscribirse a cursado">
+            <mat-icon>history_edu</mat-icon>
+        </button>
+      </div>
+
+    <table #table mat-table [dataSource]="dataSource" class="mat-elevation-z8 px-0 w-100" aria-describedby="Cursos">
+        <!-- Id Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let course"> {{course.id}} </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td class="fw-bold" mat-cell *matCellDef="let course">
+              <div class="row">
+                <div class="col-1"><em class="fs-2 fa-brands fa-{{ course.course | courseIcon }}"></em></div>
+                <div class="col-11">{{ course.course }}</div>  
+              </div>
+          </td>
+        </ng-container>
+            
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let course">
+              <div class="row">
+                  <mat-icon [ngClass]="user!.rol === 'admin' ? '' : 'd-none'" (click)="onDeleteInscription(course)" class="col" aria-hidden="false" aria-label="details icon" matTooltip="Eliminar la inscripción a este curso">delete</mat-icon>
+              </div>
+            
+          </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[8, 10, 20]"
+                 showFirstLastButtons 
+                 aria-label="Select students of students list">
+      </mat-paginator>
+    
+</div>
+

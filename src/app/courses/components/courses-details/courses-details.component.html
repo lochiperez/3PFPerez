@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="d-flex align-items-end">
+        <button [routerLink]="'..'" class="m-2" mat-fab color="primary" aria-label="back button"
+            matTooltip="Volver a usuarios">
+            <mat-icon>arrow_back_ios_new</mat-icon>
+        </button>
+        <h1 appTitles>Detalles del Curso</h1>
+    </div>
+    <mat-card *ngIf="!loading">
+        <mat-card-content>
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Datos Generales </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-list>
+                        <div class="row">
+                            <mat-list-item>
+                                <div class="col-2" appItemName>Nombre:</div>
+                                <div class="col-10">{{ course.course }}</div>
+                            </mat-list-item>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="row">
+                            <mat-list-item>
+                                <div class="col-2" appItemName>Docente:</div>
+                                <div class="col-10">{{ course.professor }}</div>
+                            </mat-list-item>
+                        </div>
+                        <mat-divider></mat-divider>
+                    </mat-list>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button [ngClass]="user!.rol === 'admin' ? '' : 'd-none'" (click)="onClickEdit()" class="m-2"
+                        mat-mini-fab color="primary" aria-label="edit button" matTooltip="Editar  los datos del curso">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button [ngClass]="user!.rol === 'admin' ? '' : 'd-none'" (click)="onDeleteCourse()" class="m-2"
+                        mat-mini-fab color="primary" aria-label="delete button" matTooltip="Eliminar el curso">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+            <mat-card class="mt-4">
+                <mat-card-header>
+                    <mat-card-title>Alumnos inscriptos a este curso</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-list>
+                        <div class="row" *ngFor="let student of studentsByCourse">
+                            <mat-list-item>
+                                <div class="col-1">
+                                    <mat-icon>school</mat-icon>
+                                </div>
+                                <div class="col-10">{{ student.name }} {{student.lastname}}</div>
+                                <div [ngClass]="user!.rol === 'admin' ? '' : 'd-none'" class="col-1"
+                                    (click)="onDeleteInscription(student)">
+                                    <mat-icon matTooltip="Eliminar inscripcion del alumno">delete</mat-icon>
+                                </div>
+                            </mat-list-item>
+                            <mat-divider></mat-divider>
+                        </div>
+                        <mat-divider></mat-divider>
+                    </mat-list>
+                </mat-card-content>
+            </mat-card>
+        </mat-card-content>
+    </mat-card>
+</div>
